@@ -15,5 +15,49 @@
     "prefix": "function",
     "body": "function${1}(${2:args}) {\n\t${0}\n}",
     "description": "Function declaration"
+  },
+
+  "function OnMapLoad": {
+    "prefix": "function OnMapLoad",
+    "body": "function OnMapLoad(){\n\t${0}\n}",
+    "description": "Called when a map is loading in the game (this includes mainmenu be sure to check against getMapType()"
+  },
+
+  "function OnPrePlayerSpawn": {
+    "prefix": "function OnPrePlayerSpawn",
+    "body": "function OnPrePlayerSpawn(playerIndex){\n\t${0}\n}",
+    "description": "Called just before a player spawns, use this if changing data about a player before spawn such as their biped"
+  },
+
+  "function OnPostPlayerSpawn": {
+    "prefix": "function OnPostPlayerSpawn",
+    "body": "function OnPostPlayerSpawn(unit_datum){\n\t${0}\n}",
+    "description": "Triggered just after the player spawns, at this stage it's possible to give weapons and etc."
+  },
+
+  "function OnAutoPickup":{
+    "prefix": "function OnAutoPickup",
+    "body": "function OnAutoPickup(unit_datum,object_datum){\n\t${0}return true;\n\n}",
+    "description": "Called when a player interacts with an item on the ground that would normally be automatically picked up.\nReturn true to allow them to pick up the item or false to prevent it.\n\nunit_datum is the datum of the player, object_datum is the datum of the object the player is interacting with."
+  },
+
+  "function OnChangeTeam": {
+    "prefix": "function OnChangeTeam",
+    "body": "function OnChangeTeam(playerIndex,teamIndex){\n\t${0}return true;\n\n}",
+    "description": "Called when a player attempts to change teams both in lobby and in-game.\nReturning true allows the team change returning false prevents it."
+  },
+
+  "function OnPlayerDeath": {
+    "prefix": "function OnPlayerDeath",
+    "body": "function OnPlayerDeath(unit_datum,damaging_datum){\n\t${0}\n}",
+    "description": "Called when a player and or object dies/gets destroyed the unit_datum should be validated using object_validate_type functions. The damaging_datum may also return a object vs a biped."
+  },
+
+  "function OnPlayerScoreUpdate": {
+    "prefix": "function OnPlayerScoreUpdate",
+    "body": "function OnUpdateScore(playerDatum, killType){\n\t${0}return true;\n\n}",
+    "description": "Called when a player's score updates in slayer variants (possibly others),\nkillType should be checked against to determine what kind of kill it was. As of now not all kill types are known.\nreturning true will allow score to update, returning false will stop it from happening"
   }
+
+
 }

@@ -43,10 +43,12 @@
         { "include": "#modifiers" },
         { "include": "#for-loop" },
         { "include": "#keywords" },
+        { "include": "#method-builtin" },
+        { "include": "#method-property-value"},
         { "include": "#method-call" },
         { "include": "#punctuation-braces" },
-        { "include": "#operators" },
         { "include": "#operator-assignment" },
+        { "include": "#operators" },
         { "include": "#punctuation-terminator" },
         { "include": "#punctuation-comma" },
         { "include": "#punctuation-accessor" },
@@ -191,7 +193,7 @@
           "name": "constant.numeric.integer.decimal.squirrel"
         },
         {
-          "match": "\\b0(x|X)[\\h]+\\b",
+          "match": "\\b0(x|X)[\\h]{1,16}\\b",
           "name": "constant.numeric.integer.hexadecimal.squirrel"
         },
         {
@@ -212,7 +214,7 @@
           }
         },
         {
-          "match": "\\'.{2,}\\'",
+          "match": "\\'(?:.{2,})?\\'",
           "name": "invalid.illegal.integer.other.squirrel"
         }
       ]
@@ -233,10 +235,10 @@
           "name": "comment.line.double-slash.squirrel"
         },
         {
-          "begin": "/\\*(?!/)",
+          "begin": "(/\\*)(?!/)",
           "beginCaptures": { "1": { "name": "punctuation.definition.comment.squirrel" } },
           "end": "\\*/",
-          "endCaptures": { "1": { "name": "punctuation.definition.comment.squirrel" } },
+          "endCaptures": { "0": { "name": "punctuation.definition.comment.squirrel" } },
           "name": "comment.block.squirrel"
         }
       ]
@@ -263,10 +265,10 @@
           "patterns": [
             { "include": "#string-escape-sequences" },
             {
-              "begin": "(?<=\\{)",
-              "beginCaptures": { "1": { "name": "punctuation.definition.block.begin.squirrel" } },
-              "end": "(\\})",
-              "endCaptures": { "1": { "name": "punctuation.definition.block.end.squirrel" } },
+              "begin": "\\{",
+              "beginCaptures": { "0": { "name": "punctuation.definition.block.begin.squirrel" } },
+              "end": "\\}",
+              "endCaptures": { "0": { "name": "punctuation.definition.block.end.squirrel" } },
               "name": "meta.method.block.squirrel",
               "patterns": [
                 { "include": "#block" },
@@ -326,6 +328,7 @@
         { "include": "#method-block" }
       ]
     },
+
 
     "method-name": {
       "begin": "\\b(function)\\b\\s*\\b(?:(constructor)|([_A-Za-z][\\w]*))?\\b",
@@ -614,8 +617,33 @@
       "name": "storage.modifier.squirrel"
     },
 
+    "method-builtin": {
+      "begin": "((?<=.)(len|push|find|tostring)(?=\\())",
+      "beginCaptures": {
+        "1": { "name": "entity.name.function.squirrel.builtin" }
+      },
+      "end": "(\\))",
+      "endCaptures": { "1": { "name": "meta.brace.round.squirrel" } },
+      "patterns": [
+        { "include": "#block" },
+        { "include": "#block-contents" }
+      ]
+    },
+
+    "method-property-value": {
+      "begin": "\\b((?<=\\.)\\w+(?=\\)|(?=\\;)|(?=\\,)(?=[^\\(])))\\b",
+       "beginCaptures": {
+        "1": { "name": "entity.name.function.squirrel.property.value" }
+      },
+      "patterns": [
+        { "include": "#block" },
+        { "include": "#block-contents" }
+      ]
+    },
+
+
     "method-call": {
-      "begin": "\\b([_a-z][\\w]*)\\s*(\\()",
+      "begin": "\\b([_a-zA-Z][\\w]*)\\s*(\\()",
       "beginCaptures": {
         "1": { "name": "entity.name.function.squirrel" },
         "2": { "name": "meta.brace.round.squirrel" }
@@ -628,8 +656,10 @@
       ]
     },
 
+ 
+
     "operator-assignment": {
-      "match": "(=)",
+      "match": "(=|<\\-)",
       "name": "keyword.operator.assignment.squirrel"
     },
 
@@ -681,7 +711,7 @@
     },
 
     "punctuation-accessor": {
-      "match": "(\\.|<-)",
+      "match": "(\\.|\\?\\.)",
       "name": "punctuation.accessor.squirrel"
     },
 
